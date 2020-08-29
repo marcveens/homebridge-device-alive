@@ -90,6 +90,7 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
             for (let i = 0; i < this.accessories.length; i++) {
                 const deviceConfig = this.config.devices.find(d => d.name === this.accessories[i].displayName);
                 const service = this.accessories[i].getService(hap.Service.OccupancySensor);
+                const status = service?.getCharacteristic(hap.Characteristic.OccupancyDetected).value;
                 const deviceIsOnline = devices.find(d => {
                     if (deviceConfig) {
                         return d.ip === deviceConfig.ip || this.fixMac(d.mac) === this.fixMac(deviceConfig.mac);
@@ -98,14 +99,18 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
                     return false;
                 });
 
-                // this.log(`Is device '${deviceConfig?.name}' online? ${!!deviceIsOnline}`);
-
                 if (!!deviceIsOnline) {
-                    // Turn on
-                    service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_DETECTED);
+                    // Only turn on if it's not already on
+                    if (!status) {
+                        this.log(`${deviceConfig?.name} is now online`);
+                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_DETECTED);
+                    }
                 } else {
-                    // Turn off
-                    service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED);
+                    // Only turn off if it's not already off 
+                    if (!!status) {
+                        this.log(`${deviceConfig?.name} is now offline`);
+                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED);
+                    }
                 }
             }
         });
