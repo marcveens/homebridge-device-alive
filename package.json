@@ -1,0 +1,32 @@
+{
+  "name": "homebridge-device-alive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "rimraf ./dist && tsc",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcveens/homebridge-device-alive.git"
+  },
+  "author": "Marc Veens <marcveens@hotmail.com> (http://marcveens.nl/)",
+  "engines": {
+    "homebridge": ">=1.0.0"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcveens/homebridge-device-alive/issues"
+  },
+  "homepage": "https://github.com/marcveens/homebridge-device-alive#readme",
+  "devDependencies": {
+    "@types/node": "^14.6.2",
+    "homebridge": "^1.1.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.2"
+  }
+}
