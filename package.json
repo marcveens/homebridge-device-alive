@@ -1,8 +1,9 @@
 {
   "name": "homebridge-device-alive",
-  "version": "1.0.0",
+  "displayName": "Device Alive",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "rimraf ./dist && tsc",
@@ -22,10 +23,14 @@
   "bugs": {
     "url": "https://github.com/marcveens/homebridge-device-alive/issues"
   },
+  "keywords": [
+    "homebridge-plugin"
+  ],
   "homepage": "https://github.com/marcveens/homebridge-device-alive#readme",
   "devDependencies": {
     "@types/node": "^14.6.2",
     "homebridge": "^1.1.2",
+    "local-devices": "^3.0.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.2"
   }
