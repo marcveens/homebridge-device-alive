@@ -18,6 +18,7 @@
                 "title": "Devices",
                 "description": "Devices that need to be checked if they're online or not. Either by IP or Mac address.",
                 "type": "array",
+                "required": true,
                 "items": {
                     "type": "object",
                     "properties": {
