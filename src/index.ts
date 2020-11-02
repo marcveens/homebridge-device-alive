@@ -146,7 +146,7 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
 
     /** Because different sources use different characters for mac addresses. Now always use colon */
     fixMac(address?: string) {
-        return (address || '').replace(/-/g, ':').replace(/\./g, ':');
+        return (address || '').replace(/-/g, ':').replace(/\./g, ':').toLowerCase();
     }
 
     // ----------------------------------------------------------------------
