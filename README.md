@@ -39,7 +39,7 @@ Example configuration:
         "devices": [
             {
                 "name": "Soundbar",
-                "mac": "FF:FF:FF:FF:FF:FF"
+                "mac": "ff:ff:ff:ff:ff:ff"
             },
             {
                 "name": "Phone",
@@ -63,7 +63,7 @@ Either mac or IP address is required.
 - `name` [required]
 Name of the device you want to add
 - `mac` [optional]
-Mac address of the device you want to check on your local network
+Mac address of the device you want to check on your local network. Should be in lowerCase.
 - `ip` [optional]
 IP address of the device you want to check on your local network
 
