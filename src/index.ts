@@ -5,7 +5,8 @@ import {
     HAP,
     Logging,
     PlatformAccessory,
-    PlatformConfig
+    PlatformConfig,
+    Service
 } from "homebridge";
 import findDevices from 'local-devices';
 import { Options } from './optionTypes';
@@ -73,9 +74,12 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
             this.accessoriesToRemove.push(accessory);
         } else {
             // Necessary to make sure all accessories are changed from OccupancySensor to MotionSensor since 1.0.5
-            const service = accessory.getService(accessory.UUID);
+            const oldOccupancySensor = accessory.getService(hap.Service.OccupancySensor);
+            if (oldOccupancySensor) {
+                accessory.services = accessory.services.filter(service => service.UUID !== oldOccupancySensor.UUID);
+                accessory.addService(hap.Service.MotionSensor, oldOccupancySensor.displayName);
+            }
 
-            console.log(service);
             console.log(accessory);
 
             this.accessories.push(accessory);
