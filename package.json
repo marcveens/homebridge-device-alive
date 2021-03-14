@@ -1,7 +1,7 @@
 {
   "name": "homebridge-device-alive",
   "displayName": "Homebridge Device Alive",
-  "version": "1.0.5-beta.0",
+  "version": "1.0.5-beta.1",
   "description": "Homebridge plugin for checking if a device is online or not. Works by IP and Mac address.",
   "main": "dist/index.js",
   "scripts": {

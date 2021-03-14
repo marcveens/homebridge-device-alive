@@ -91,8 +91,8 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
         findDevices().then(devices => {
             for (let i = 0; i < this.accessories.length; i++) {
                 const deviceConfig = this.config.devices.find(d => d.name === this.accessories[i].displayName);
-                const service = this.accessories[i].getService(hap.Service.OccupancySensor);
-                const status = service?.getCharacteristic(hap.Characteristic.OccupancyDetected).value;
+                const service = this.accessories[i].getService(hap.Service.MotionSensor);
+                const status = service?.getCharacteristic(hap.Characteristic.MotionDetected).value;
                 const deviceIsOnline = devices.find(d => {
                     if (deviceConfig) {
                         return d.ip === deviceConfig.ip || this.fixMac(d.mac) === this.fixMac(deviceConfig.mac);
@@ -105,13 +105,13 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
                     // Only turn on if it's not already on
                     if (!status) {
                         this.log(`${deviceConfig?.name} is now online`);
-                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_DETECTED);
+                        service?.updateCharacteristic(hap.Characteristic.MotionDetected, true);
                     }
                 } else {
                     // Only turn off if it's not already off 
                     if (!!status) {
                         this.log(`${deviceConfig?.name} is now offline`);
-                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED);
+                        service?.updateCharacteristic(hap.Characteristic.MotionDetected, false);
                     }
                 }
             }
@@ -141,7 +141,7 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
             const uuid = hap.uuid.generate(acc.name);
             const accessory = new Accessory(acc.name, uuid);
 
-            accessory.addService(hap.Service.OccupancySensor, acc.name);
+            accessory.addService(hap.Service.MotionSensor, acc.name);
             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
             this.accessories.push(accessory);
         });

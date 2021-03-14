@@ -51,7 +51,7 @@ Example configuration:
 }
 ```
 
-Every device stated in the config will be automatically added as an accessory to Homekit. 
+Every device stated in the config will be automatically added as an accessory to HomeKit. 
 
 #### Platform Configuration fields
 Property | Required? | Remarks

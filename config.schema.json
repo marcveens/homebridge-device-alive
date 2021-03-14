@@ -11,7 +11,7 @@
                 "title": "Polling interval",
                 "description": "How often to check the status of the device in milliseconds.",
                 "type": "number",
-                "default": 5000,
+                "default": 20000,
                 "required": false
             },
             "devices": {
