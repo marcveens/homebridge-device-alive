@@ -76,6 +76,7 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
             const service = accessory.getService(accessory.UUID);
 
             console.log(service);
+            console.log(accessory);
 
             this.accessories.push(accessory);
         }
