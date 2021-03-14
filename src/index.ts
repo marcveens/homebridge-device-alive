@@ -22,10 +22,10 @@ export = (api: API) => {
     hap = api.hap;
     Accessory = api.platformAccessory;
 
-    api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, ExampleDynamicPlatform);
+    api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, DeviceAlivePlatform);
 };
 
-class ExampleDynamicPlatform implements DynamicPlatformPlugin {
+class DeviceAlivePlatform implements DynamicPlatformPlugin {
 
     private readonly log: Logging;
     private readonly api: API;
@@ -39,8 +39,10 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
     constructor(log: Logging, defaultConfig: PlatformConfig, api: API) {
         this.log = log;
         this.api = api;
-        this.config = defaultConfig as CustomPlatformConfig;
-        this.checkStateIntervalTime = this.config.checkInterval || 5000;
+        this.config = Object.assign({}, {
+            devices: []
+        }, defaultConfig as CustomPlatformConfig);
+        this.checkStateIntervalTime = Math.max(5000, this.config.checkInterval || 5000);
 
         /*
          * When this event is fired, homebridge restored all cached accessories from disk and did call their respective
@@ -70,6 +72,13 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
         if (!this.accessoryRegisteredInConfig(accessory)) {
             this.accessoriesToRemove.push(accessory);
         } else {
+            // Necessary to make sure all accessories are changed from OccupancySensor to MotionSensor since 1.0.5
+            const oldOccupancySensor = accessory.getService(hap.Service.OccupancySensor);
+            if (oldOccupancySensor) {
+                accessory.removeService(oldOccupancySensor);
+                accessory.addService(hap.Service.MotionSensor, oldOccupancySensor.displayName);
+            }
+
             this.accessories.push(accessory);
         }
     }
@@ -89,8 +98,8 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
         findDevices().then(devices => {
             for (let i = 0; i < this.accessories.length; i++) {
                 const deviceConfig = this.config.devices.find(d => d.name === this.accessories[i].displayName);
-                const service = this.accessories[i].getService(hap.Service.OccupancySensor);
-                const status = service?.getCharacteristic(hap.Characteristic.OccupancyDetected).value;
+                const service = this.accessories[i].getService(hap.Service.MotionSensor);
+                const status = service?.getCharacteristic(hap.Characteristic.MotionDetected).value;
                 const deviceIsOnline = devices.find(d => {
                     if (deviceConfig) {
                         return d.ip === deviceConfig.ip || this.fixMac(d.mac) === this.fixMac(deviceConfig.mac);
@@ -103,13 +112,13 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
                     // Only turn on if it's not already on
                     if (!status) {
                         this.log(`${deviceConfig?.name} is now online`);
-                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_DETECTED);
+                        service?.updateCharacteristic(hap.Characteristic.MotionDetected, true);
                     }
                 } else {
                     // Only turn off if it's not already off 
                     if (!!status) {
                         this.log(`${deviceConfig?.name} is now offline`);
-                        service?.updateCharacteristic(hap.Characteristic.OccupancyDetected, hap.Characteristic.OccupancyDetected.OCCUPANCY_NOT_DETECTED);
+                        service?.updateCharacteristic(hap.Characteristic.MotionDetected, false);
                     }
                 }
             }
@@ -139,8 +148,9 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
             const uuid = hap.uuid.generate(acc.name);
             const accessory = new Accessory(acc.name, uuid);
 
-            accessory.addService(hap.Service.OccupancySensor, acc.name);
+            accessory.addService(hap.Service.MotionSensor, acc.name);
             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+            this.accessories.push(accessory);
         });
     }
 

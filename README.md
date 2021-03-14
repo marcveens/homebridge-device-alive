@@ -51,21 +51,23 @@ Example configuration:
 }
 ```
 
-Every device stated in the config will be automatically added as an accessory to Homekit. 
+Every device stated in the config will be automatically added as an accessory to HomeKit. 
 
 #### Platform Configuration fields
-- `platform` [required]
-Should always be **"DeviceAlive"**.
-- `devices` [required]
-A list of your devices.
+Property | Required? | Remarks
+--- | :-: | ---
+`platform` | :heavy_check_mark: | Should always be **"DeviceAlive"**.
+`changeChecks` | :heavy_check_mark: | A list of your devices.
+
+
 #### Device Configuration fields
 Either mac or IP address is required.
-- `name` [required]
-Name of the device you want to add
-- `mac` [optional]
-Mac address of the device you want to check on your local network. Should be in lowerCase.
-- `ip` [optional]
-IP address of the device you want to check on your local network
+
+Property | Required? | Remarks
+--- | :-: | ---
+`name` | :heavy_check_mark: | Name of the device you want to add
+`mac` | | Mac address of the device you want to check on your local network. Should be in lowercase.
+`ip` |  | IP address of the device you want to check on your local network
 
 ### Backstory
 This plugin is actually developed for use in Apple Shortcuts. I had a problem where I wanted to use a IR blaster to turn on and off some devices, but only had 1 signal for both statuses. I could not check if the device was already turned off when I ran a shortcut, thus the device would turn on again. This plugin can make sure no signal is sent if the device is already turned off.  

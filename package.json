@@ -1,7 +1,7 @@
 {
   "name": "homebridge-device-alive",
-  "displayName": "Device Alive",
-  "version": "1.0.4",
+  "displayName": "Homebridge Device Alive",
+  "version": "1.0.5",
   "description": "Homebridge plugin for checking if a device is online or not. Works by IP and Mac address.",
   "main": "dist/index.js",
   "scripts": {
@@ -9,8 +9,15 @@
     "build": "rimraf ./dist && tsc",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run clean",
+    "publish-beta": "npm publish --tag beta",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://paypal.me/marcveens"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcveens/homebridge-device-alive.git"
