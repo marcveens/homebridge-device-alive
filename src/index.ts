@@ -80,8 +80,6 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
                 accessory.addService(hap.Service.MotionSensor, oldOccupancySensor.displayName);
             }
 
-            console.log(accessory);
-
             this.accessories.push(accessory);
         }
     }
