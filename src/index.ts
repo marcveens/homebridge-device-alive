@@ -76,7 +76,7 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
             // Necessary to make sure all accessories are changed from OccupancySensor to MotionSensor since 1.0.5
             const oldOccupancySensor = accessory.getService(hap.Service.OccupancySensor);
             if (oldOccupancySensor) {
-                accessory.services = accessory.services.filter(service => service.UUID !== oldOccupancySensor.UUID);
+                accessory.removeService(oldOccupancySensor);
                 accessory.addService(hap.Service.MotionSensor, oldOccupancySensor.displayName);
             }
 
