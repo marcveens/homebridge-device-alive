@@ -72,6 +72,11 @@ class DeviceAlivePlatform implements DynamicPlatformPlugin {
         if (!this.accessoryRegisteredInConfig(accessory)) {
             this.accessoriesToRemove.push(accessory);
         } else {
+            // Necessary to make sure all accessories are changed from OccupancySensor to MotionSensor since 1.0.5
+            const service = accessory.getService(accessory.UUID);
+
+            console.log(service);
+
             this.accessories.push(accessory);
         }
     }
