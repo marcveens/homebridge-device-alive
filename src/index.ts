@@ -5,8 +5,7 @@ import {
     HAP,
     Logging,
     PlatformAccessory,
-    PlatformConfig,
-    Service
+    PlatformConfig
 } from "homebridge";
 import findDevices from 'local-devices';
 import { Options } from './optionTypes';
