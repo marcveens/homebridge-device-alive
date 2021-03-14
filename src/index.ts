@@ -22,10 +22,10 @@ export = (api: API) => {
     hap = api.hap;
     Accessory = api.platformAccessory;
 
-    api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, ExampleDynamicPlatform);
+    api.registerPlatform(PLUGIN_NAME, PLATFORM_NAME, DeviceAlivePlatform);
 };
 
-class ExampleDynamicPlatform implements DynamicPlatformPlugin {
+class DeviceAlivePlatform implements DynamicPlatformPlugin {
 
     private readonly log: Logging;
     private readonly api: API;
@@ -39,8 +39,10 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
     constructor(log: Logging, defaultConfig: PlatformConfig, api: API) {
         this.log = log;
         this.api = api;
-        this.config = defaultConfig as CustomPlatformConfig;
-        this.checkStateIntervalTime = this.config.checkInterval || 5000;
+        this.config = Object.assign({}, {
+            devices: []
+        }, defaultConfig as CustomPlatformConfig);
+        this.checkStateIntervalTime = Math.max(5000, this.config.checkInterval || 5000);
 
         /*
          * When this event is fired, homebridge restored all cached accessories from disk and did call their respective
@@ -141,6 +143,7 @@ class ExampleDynamicPlatform implements DynamicPlatformPlugin {
 
             accessory.addService(hap.Service.OccupancySensor, acc.name);
             this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+            this.accessories.push(accessory);
         });
     }
 
