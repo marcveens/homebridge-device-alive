@@ -7,7 +7,7 @@
 
 </span>
 
-`homebridge-device-alive` is a plugin for homebridge which allows you to check if a device is online in your network. It support both IP addresses and Mac addresses. It uses a Homebridge Motion Sensor accessory to indicate if a device is available on the local network. 
+`homebridge-device-alive` is a plugin for homebridge which allows you to check if a device is online in your network. It supports both IP addresses and MAC addresses, but only either of them is used per `device` configuration. It uses a Homebridge Motion Sensor accessory to indicate if a device is available on the local network. 
 
 ## Installation
 
@@ -61,7 +61,7 @@ Property | Required? | Remarks
 
 
 #### Device Configuration fields
-Either mac or IP address is required.
+Either MAC or IP address is required. 
 
 Property | Required? | Remarks
 --- | :-: | ---
