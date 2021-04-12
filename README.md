@@ -2,6 +2,7 @@
 
 # homebridge-device-alive
 
+[![verified-by-homebridge](https://badgen.net/badge/homebridge/verified/purple)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![homebridge-device-alive](https://badgen.net/npm/v/homebridge-device-alive?icon=npm)](https://www.npmjs.com/package/homebridge-device-alive)
 [![mit-license](https://badgen.net/npm/license/homebridge-device-alive)](https://github.com/marcveens/homebridge-device-alive/blob/master/LICENSE)
 
